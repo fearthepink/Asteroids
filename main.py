@@ -22,11 +22,14 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return
+                
+        dt = clock.tick(60) / 1000 # this logs the time between screen refreshes
+        
+        ship.update(dt)
         screen.fill("black")
         ship.draw(screen)
-        ship.update(dt)
         pygame.display.flip()   # this gives us a refresh on the screen
-        dt = clock.tick(60) / 1000 # this logs the time between screen refreshes
+        
         print(dt)
     return
 
