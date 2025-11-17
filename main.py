@@ -12,16 +12,16 @@ def main():
     print(f"Screen height: {SCREEN_HEIGHT}")
 
     pygame.init()
-
-    ship = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
+    screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+    clock = pygame.time.Clock(); dt = 0 #creates a clock class item with dt(delta-time) counter
 
     updatable = pygame.sprite.Group()
     drawable = pygame.sprite.Group()
-
     Player.containers = (updatable, drawable)
+
+    ship = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
+
     
-    clock = pygame.time.Clock(); dt = 0 #creates a clock class item with dt(delta-time) counter
-    screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     while True:
         log_state()
         for event in pygame.event.get():
@@ -30,9 +30,11 @@ def main():
 
         dt = clock.tick(60) / 1000 # this logs the time between screen refreshes
         
-        ship.update(dt)
+        updatable.update(dt)
         screen.fill("black")
-        ship.draw(screen)
+        
+        for chr in drawable:
+            chr.draw(screen)
         pygame.display.flip()   # this gives us a refresh on the screen
         
         print(dt)
