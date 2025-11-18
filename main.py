@@ -1,9 +1,11 @@
 import pygame
+import sys
 from constants import SCREEN_HEIGHT, SCREEN_WIDTH
 from logger import log_state
 from player import Player
 from asteroidfield import AsteroidField
 from asteroid import Asteroid
+from logger import log_event
 
 
 
@@ -39,11 +41,18 @@ def main():
         
         updatable.update(dt)
 
+        for asteroid in asteroids:
+            if asteroid.collides_with(ship) == True:
+                log_event("player_hit")
+                print("Game Over!")
+                sys.exit()
+            
+
         screen.fill("black")
         
         for chr in drawable:
             chr.draw(screen)
-            
+
         pygame.display.flip()   # this gives us a refresh on the screen
         
         dt = clock.tick(60) / 1000 # this logs the time between screen refreshes
